@@ -3,7 +3,7 @@ module github.com/aybabtme/orderedjson
 go 1.17
 
 require (
-	github.com/aybabtme/flatjson v0.1.1
+	github.com/aybabtme/flatjson v0.1.3-0.20250206005629-1294e30747f0
 	github.com/stretchr/testify v1.7.0
 )
 
