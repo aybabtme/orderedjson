@@ -3,13 +3,15 @@
 //
 // Given this input:
 // ```json
-// {
-//   "0": null,
-//   "1": 0,
-//   "2": "s",
-//   "3": [null, 0, "string", [], {}],
-//   "4": {"0": null, "1": 0, "2": "s", "3": [], "4": {}},
-// }
+//
+//	{
+//	  "0": null,
+//	  "1": 0,
+//	  "2": "s",
+//	  "3": [null, 0, "string", [], {}],
+//	  "4": {"0": null, "1": 0, "2": "s", "3": [], "4": {}},
+//	}
+//
 // ```
 //
 // Use the `orderedjson.Map` type to unmarshal:
@@ -23,13 +25,15 @@
 // The content of `object` will then be:
 //
 // ```go
-// object := orderedjson.Map{
-//   {Key: json.RawMessage(`"0"`), Value: json.RawMessage(`null`)},
-//   {Key: json.RawMessage(`"1"`), Value: json.RawMessage(`0`)},
-//   {Key: json.RawMessage(`"2"`), Value: json.RawMessage(`"s"`)},
-//   {Key: json.RawMessage(`"3"`), Value: json.RawMessage(`[null, 0, "string", [], {}]`)},
-//   {Key: json.RawMessage(`"4"`), Value: json.RawMessage(`{"0": null, "1": 0, "2": "s", "3": [], "4": {}}`)},
-// }
+//
+//	object := orderedjson.Map{
+//	  {Key: json.RawMessage(`"0"`), Value: json.RawMessage(`null`)},
+//	  {Key: json.RawMessage(`"1"`), Value: json.RawMessage(`0`)},
+//	  {Key: json.RawMessage(`"2"`), Value: json.RawMessage(`"s"`)},
+//	  {Key: json.RawMessage(`"3"`), Value: json.RawMessage(`[null, 0, "string", [], {}]`)},
+//	  {Key: json.RawMessage(`"4"`), Value: json.RawMessage(`{"0": null, "1": 0, "2": "s", "3": [], "4": {}}`)},
+//	}
+//
 // ```
 //
 // And you can continue unmarshalling `Key` and `Value` however you wish.
@@ -54,7 +58,7 @@ type MapEntry struct {
 
 func (m *Map) UnmarshalJSON(data []byte) error {
 	_, found, err := flatjson.ScanObject(data, 0, &flatjson.Callbacks{
-		OnRaw: func(name, value flatjson.Pos) {
+		OnRaw: func(prefixes flatjson.Prefixes, name flatjson.Prefix, value flatjson.Pos) {
 			entry := MapEntry{
 				Key:   json.RawMessage(name.Bytes(data)),
 				Value: json.RawMessage(value.Bytes(data)),
